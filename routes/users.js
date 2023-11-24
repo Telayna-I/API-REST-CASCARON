@@ -1,3 +1,4 @@
+const { check } = require("express-validator");
 const { Router } = require("express");
 const {
 	getUsers,
@@ -7,9 +8,9 @@ const {
 	deleteUsers,
 } = require("../controllers/users");
 
-const { check } = require("express-validator");
-
-const { validateFields } = require("./middlewares/validate-fields");
+const { validateFields } = require("../middlewares/validate-fields");
+const { validateJWT } = require("../middlewares/validate-JWT");
+const { hasAdminRole, hasRole } = require("../middlewares/validate-Role");
 
 const {
 	isValidRole,
@@ -53,6 +54,9 @@ router.patch("/", patchUsers);
 router.delete(
 	"/:id",
 	[
+		validateJWT,
+		hasAdminRole,
+		// hasRole(["ADMIN_ROLE", "VENTAS_ROLE"]), verifica si tiene uno de esos roles para eliminar, manda args
 		check("id", "No es un id valido").isMongoId(),
 		check("id").custom(validateId),
 		validateFields,

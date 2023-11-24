@@ -58,9 +58,11 @@ const patchUsers = (req = request, res = response) => {
 const deleteUsers = async (req = request, res = response) => {
 	const { id } = req.params;
 
+	const autenticatedUser = req.user;
+
 	const user = await User.findByIdAndUpdate(id, { status: false });
 
-	res.json({ msg: "PETICION DELETE - CONTROLADOR", user });
+	res.json({ autenticatedUser, user });
 };
 
 module.exports = {
