@@ -26,8 +26,5 @@ router.post(
 	],
 	googleSignIn
 );
-// router.put("/", getUsers);
-// router.patch("/", getUsers);
-// router.delete("/", getUsers);
 
 module.exports = router;
