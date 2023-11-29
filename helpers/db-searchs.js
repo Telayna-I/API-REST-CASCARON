@@ -11,7 +11,7 @@ const searchUsers = async (term = "", res = response) => {
 		});
 	}
 
-	const regex = new RegExp(term, "i");
+	const regex = new RegExp(term, "i"); // Expresion regular que valida mayusculas y minusculas
 
 	const [count, users] = await Promise.all([
 		User.countDocuments({

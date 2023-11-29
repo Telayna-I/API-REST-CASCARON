@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const fileUpload = require("express-fileupload");
 const { dbConection } = require("../database/config");
 
 class Server {
@@ -12,6 +13,7 @@ class Server {
 			categories: "/api/categories",
 			products: "/api/products",
 			search: "/api/search",
+			uploads: "/api/uploads",
 			users: "/api/users",
 		};
 
@@ -37,6 +39,15 @@ class Server {
 		this.app.use(express.json());
 		// Directorio publico
 		this.app.use(express.static("public"));
+
+		// Carga de archivos
+		this.app.use(
+			fileUpload({
+				useTempFiles: true,
+				tempFileDir: "/tmp/",
+				// createParentPath: true // Solo si quiero que cuando suba un archivo cree la carpeta si no existe.
+			})
+		);
 	}
 
 	routes() {
@@ -44,6 +55,7 @@ class Server {
 		this.app.use(this.paths.categories, require("../routes/categories"));
 		this.app.use(this.paths.products, require("../routes/products"));
 		this.app.use(this.paths.search, require("../routes/search"));
+		this.app.use(this.paths.uploads, require("../routes/uploads"));
 		this.app.use(this.paths.users, require("../routes/users"));
 	}
 

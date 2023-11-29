@@ -1,3 +1,4 @@
+const { request } = require("express");
 const { Categorie, User, Role, Product } = require("../models");
 
 const isValidRole = async (role = "") => {
@@ -44,6 +45,13 @@ const validateProductById = async (id) => {
 	}
 };
 
+const allowedCollections = (col, allowed = ["products", "users"]) => {
+	if (!allowed.includes(col)) {
+		throw new Error(`No podes subir archivos a la coleccion ${col}`);
+	}
+	return true;
+};
+
 module.exports = {
 	isValidRole,
 	validateEmail,
@@ -51,4 +59,5 @@ module.exports = {
 	validateCategorie,
 	validateCategorieById,
 	validateProductById,
+	allowedCollections,
 };
